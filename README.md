@@ -305,6 +305,9 @@ class ConfigService {
 
 ## 🏎️ Advanced Concepts
 
+### Core Language Features
+
+- [`🎯 Best Practices`](java_vs_kotlin/BestPractices.md)
 - [`🧵 Control Flow`](java_vs_kotlin/ControlFlow.md)
 - [`🧱 POJOs vs Data Classes`](java_vs_kotlin/POJO.md)
 - [`🧪 Extension Functions`](java_vs_kotlin/ExtensionFunctions.md)
@@ -317,3 +320,24 @@ class ConfigService {
 - [`🧭 Reflection`](java_vs_kotlin/Reflection.md)
 - [`🧱 Builders and DSLs`](java_vs_kotlin/Builders.md)
 - [`🔄 Interoperability`](java_vs_kotlin/Interoperability.md)
+
+### Language Integration
+
+- [`� Interfaces and Default Methods`](java_vs_kotlin/Interfaces.md)
+- [`�️ Utility Classes vs Extensions`](java_vs_kotlin/ExtensionsAndUtils.md)
+- [`🎁 Wrappers and Value Classes`](java_vs_kotlin/Wrappers.md)
+- [`🛡️ Optional vs Null Safety`](java_vs_kotlin/OptionalVsNullSafety.md)
+
+### Extended Features
+
+- [`📞 Callbacks and Event Handling`](java_vs_kotlin/Callbacks.md)
+- [`📝 Regular Expressions`](java_vs_kotlin/RegularExpressions.md)
+- [`🔤 String Methods`](java_vs_kotlin/StringMethods.md)
+- [`📂 File Handling`](java_vs_kotlin/FileHandling.md)
+- [`🧮 Memory Management`](java_vs_kotlin/MemoryManagement.md)
+- [`�️ Database Connections`](java_vs_kotlin/DatabaseConnections.md)
+- [`🚫 Error Handling Patterns`](java_vs_kotlin/ErrorHandling.md)
+
+### Additional Resources
+
+- [`⚖️ Java vs Kotlin: Pros and Cons`](java_vs_kotlin/ProsCons.md)

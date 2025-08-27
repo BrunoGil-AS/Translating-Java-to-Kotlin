@@ -1,4 +1,4 @@
-# [`<— Complete Java vs Kotlin Backend Comparison`](../JavaVsKotlin.md)
+# [`<— Complete Java vs Kotlin Backend Comparison`](../README.md)
 
 ## ⚖️ Java vs Kotlin: Pros and Cons
 

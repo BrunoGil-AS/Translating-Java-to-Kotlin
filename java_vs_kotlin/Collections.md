@@ -1,8 +1,8 @@
-[`<--`](../JavaVsKotlin.md)
+# [`<— Complete Java vs Kotlin Backend Comparison`](../JavaVsKotlin.md)
 
-# 🧰 Collections and Streams
+## 🧰 Collections and Streams
 
-## Kotlin vs Java Collections
+### Kotlin vs Java Collections
 
 ![alt text](../resources/CollectionsDiagram.png)
 
@@ -20,7 +20,7 @@
 | `Iterable<T>`            | ❌ Immutable | `java.lang.Iterable<T>`            | Base type for collections, just like in Java.                                                         |
 | `MutableIterable<T>`     | ✅ Mutable   | `java.lang.Iterable<T>` + mutation | Can remove via iterator.                                                                              |
 
-### **Key Differences**
+#### **Key Differences**
 
 - Kotlin makes a **clear distinction** between **read-only (`List`, `Set`, `Map`)** and **mutable (`MutableList`, `MutableSet`, `MutableMap`)** collections.  
   In Java, mutability is implicit depending on the implementation (`List` could be backed by `ArrayList` or `Collections.unmodifiableList`).
@@ -30,7 +30,7 @@
 
 ---
 
-## List, Set, Map
+### List, Set, Map
 
 **Java:**
 
@@ -95,7 +95,7 @@ fun demonstrateCollections() {
 }
 ```
 
-### Common methods
+#### Common methods
 
 - Kotlin collections are much more concise, with operators like [], in, +, union, intersect.
 
@@ -152,7 +152,7 @@ fun demonstrateCollections() {
 
 ---
 
-## Java Streams vs Kotlin Sequences
+### Java Streams vs Kotlin Sequences
 
 **Java Streams:**
 
@@ -206,7 +206,7 @@ fun processNumbers() {
 }
 ```
 
-## Functional operations: map, filter, reduce
+### Functional operations: map, filter, reduce
 
 **Java:**
 

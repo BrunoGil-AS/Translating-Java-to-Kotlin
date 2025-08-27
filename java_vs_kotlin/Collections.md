@@ -160,20 +160,25 @@ fun demonstrateCollections() {
 - Intermediate operations are not executed until a terminal operation is invoked.
 
 ```java
+// Example showing Java Stream's lazy evaluation
 public class StreamExample {
     public void processNumbers() {
+        // Create source collection
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
+        // Build processing pipeline with debug output
         List<Integer> result = numbers.stream()
             .filter(n -> {
+                // This won't execute until collect() is called
                 System.out.println("Filtering: " + n);
                 return n % 2 == 0;
             })
             .map(n -> {
+                // Transform after filtering
                 System.out.println("Mapping: " + n);
                 return n * 2;
             })
-            .limit(3)
+            .limit(3)  // Take only first 3 results
             .collect(Collectors.toList());
 
         System.out.println("Result: " + result);
@@ -187,47 +192,61 @@ public class StreamExample {
 - For large collections, `asSequence()` is more performant than direct collection operations as it avoids creating intermediate collections.
 
 ```kotlin
+// Kotlin Sequence example with similar lazy evaluation
 fun processNumbers() {
+    // Create number range and convert to list
     val numbers = (1..10).toList()
 
+    // Convert to sequence for lazy evaluation
     val result = numbers.asSequence()
         .filter {
+            // Shows when filter is actually executed
             println("Filtering: $it")
             it % 2 == 0
         }
         .map {
+            // Shows when map is executed
             println("Mapping: $it")
             it * 2
         }
-        .take(3)
-        .toList()
+        .take(3)     // Similar to limit() in Java
+        .toList()    // Terminal operation
 
     println("Result: $result")
 }
 ```
+
+**Key Differences:**
+- Kotlin Sequences are simpler to create with `asSequence()`
+- More concise syntax with lambda expressions
+- Built-in range support (1..10)
+- Terminal operations like `toList()` are clearer
+- Natural string interpolation for debugging
 
 ### Functional operations: map, filter, reduce
 
 **Java:**
 
 ```java
+// Java functional operations example
 public class FunctionalOperations {
     public void demonstrate() {
+        // Source collection
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
 
-        // map: Transform each element
+        // Transform using map operation
         List<Integer> squared = numbers.stream()
-            .map(n -> n * n)
+            .map(n -> n * n)             // Square each number
             .collect(Collectors.toList()); // [1, 4, 9, 16, 25]
 
-        // filter: Select elements that match a predicate
+        // Filter operation for even numbers
         List<Integer> evenNumbers = numbers.stream()
-            .filter(n -> n % 2 == 0)
+            .filter(n -> n % 2 == 0)      // Keep only even numbers
             .collect(Collectors.toList()); // [2, 4]
 
-        // reduce: Combine elements into a single result
+        // Reduce operation to sum all numbers
         int sum = numbers.stream()
-            .reduce(0, Integer::sum); // 15
+            .reduce(0, Integer::sum);     // 15 (method reference)
     }
 }
 ```
@@ -235,19 +254,28 @@ public class FunctionalOperations {
 **Kotlin:**
 
 ```kotlin
+// Kotlin functional operations example
 fun demonstrate() {
+    // Create list using factory function
     val numbers = listOf(1, 2, 3, 4, 5)
 
-    // map: Transform each element
-    val squared = numbers.map { it * it } // [1, 4, 9, 16, 25]
+    // Direct map operation on collection
+    val squared = numbers.map { it * it }          // [1, 4, 9, 16, 25]
 
-    // filter: Select elements that match a predicate
+    // Filter using predicate lambda
     val evenNumbers = numbers.filter { it % 2 == 0 } // [2, 4]
 
-    // reduce: Combine elements into a single result
-    val sum = numbers.reduce { acc, n -> acc + n } // 15
+    // Reduce operation with lambda
+    val sum = numbers.reduce { acc, n -> acc + n }   // 15
 
-    // fold is like reduce but with an initial value
+    // Fold with initial value
     val sumWithInitial = numbers.fold(0) { acc, n -> acc + n } // 15
 }
 ```
+
+**Key Differences:**
+- Kotlin operations work directly on collections
+- No need for stream conversion or collection
+- More concise lambda syntax with 'it'
+- Built-in fold operation with initial value
+- No explicit type declarations needed

@@ -7,13 +7,17 @@
 **Java:**
 
 ```java
+// Traditional Java class with explicit constructor and property declaration
 public class UserService {
+    // Final field to ensure immutability
     private final UserRepository userRepository;
 
+    // Constructor injection pattern
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    // Method to find user by ID with exception handling
     public User findUserById(Long id) {
         return userRepository.findById(id)
             .orElseThrow(() -> new UserNotFoundException("User not found: " + id));
@@ -24,9 +28,12 @@ public class UserService {
 **Kotlin:**
 
 ```kotlin
+// Concise Kotlin class with primary constructor and property declaration combined
 class UserService(
+    // Property declaration and constructor parameter in one line
     private val userRepository: UserRepository
 ) {
+    // Function using string interpolation and lambda for exception
     fun findUserById(id: Long): User {
         return userRepository.findById(id)
             .orElseThrow { UserNotFoundException("User not found: $id") }
@@ -39,25 +46,41 @@ class UserService(
 - Kotlin eliminates constructor boilerplate and property declarations
 - String interpolation (`$id`) is more natural than Java concatenation
 - Kotlin infers access modifiers (`public` by default)
+- Primary constructor syntax reduces code duplication
+- Property declaration combines field and constructor parameter
+- Exception handling with lambda is more idiomatic in Kotlin
 
-**Kotlin Advantages:** More concise, less repetitive code, more expressive syntax
-**Java Advantages:** More explicit, familiar to traditional Java developers
+**Kotlin Advantages:**
+
+- More concise, less repetitive code
+- More expressive syntax
+- Built-in null safety with the type system
+- String interpolation for cleaner string formatting
+
+**Java Advantages:**
+
+- More explicit, familiar to traditional Java developers
+- Clear separation of constructor and field declarations
+- Traditional OOP patterns are more visible
 
 ### Methods and Functions
 
 **Java:**
 
 ```java
+// Static utility class in Java style
 public class MathUtils {
+    // Basic addition method
     public static int add(int a, int b) {
         return a + b;
     }
 
+    // Multiplication with an additional factor parameter
     public static int multiply(int a, int b, int factor) {
         return (a + b) * factor;
     }
 
-    // Method overloading for optional parameters
+    // Method overloading to provide default factor value
     public static int multiply(int a, int b) {
         return multiply(a, b, 1);
     }
@@ -67,16 +90,18 @@ public class MathUtils {
 **Kotlin:**
 
 ```kotlin
+// Kotlin class with companion object for static-like behavior
 class MathUtils {
     companion object {
+        // Single expression function using concise syntax
         fun add(a: Int, b: Int): Int = a + b
 
-        // Function with default parameter and single expression
+        // Single function with default parameter instead of overloading
         fun multiply(a: Int, b: Int, factor: Int = 1): Int = (a + b) * factor
     }
 }
 
-// Top-level functions (not necessarily inside classes)
+// Demonstrating top-level functions, a unique Kotlin feature
 fun add(a: Int, b: Int): Int = a + b
 ```
 
@@ -85,7 +110,22 @@ fun add(a: Int, b: Int): Int = a + b
 - Kotlin supports default parameters, eliminating method overloading
 - Single expression functions (`= expression`) reduce boilerplate
 - Kotlin allows top-level functions, not necessarily within classes
-- `companion object` is equivalent to Java static methods
+- `companion object` provides more flexible alternative to static methods
+- Type inference reduces verbosity in function declarations
+- Expression bodies make simple functions more concise
+
+**Kotlin Advantages:**
+
+- Default parameters eliminate the need for method overloading
+- Top-level functions reduce unnecessary class creation
+- More concise syntax for simple function declarations
+- Companion objects provide more powerful static functionality
+
+**Java Advantages:**
+
+- Traditional method overloading is more familiar to OOP developers
+- Static methods have clearer scope and visibility
+- Class organization is more straightforward and conventional
 
 ### Variables
 

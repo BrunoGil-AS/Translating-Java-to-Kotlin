@@ -20,7 +20,7 @@ public class HigherOrderFunctionExample {
     public void usage() {
         // Pass lambda as function parameter
         process("hello", s -> s.length()); // 5
-        
+
         // Using method reference
         process("world", String::length); // 5
     }
@@ -42,10 +42,10 @@ class HigherOrderFunctionExample {
     fun usage() {
         // Using lambda with implicit parameter
         process("hello") { it.length } // 5
-        
+
         // Using function reference
         process("world", String::length) // 5
-        
+
         // Storing function in variable
         val lengthCalculator: (String) -> Int = { it.length }
         process("kotlin", lengthCalculator)
@@ -54,6 +54,7 @@ class HigherOrderFunctionExample {
 ```
 
 **Key Differences:**
+
 - Kotlin has native function types
 - Simpler lambda syntax with 'it'
 - Can store functions in variables
@@ -63,6 +64,7 @@ class HigherOrderFunctionExample {
 ### Immutability
 
 **Java:**
+
 ```java
 // Immutability in Java
 public final class ImmutablePerson {
@@ -84,6 +86,7 @@ public final class ImmutablePerson {
 ```
 
 **Kotlin:**
+
 ```kotlin
 // Immutability in Kotlin
 data class Person(
@@ -100,6 +103,7 @@ fun demo() {
 ```
 
 **Key Differences:**
+
 - Kotlin uses `val` for read-only properties
 - Collections are immutable by default
 - Data classes provide built-in immutability

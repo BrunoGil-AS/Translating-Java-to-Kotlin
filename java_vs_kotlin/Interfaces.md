@@ -7,16 +7,18 @@
 **Java:**
 
 ```java
+// Java interface with default and static methods
 public interface UserRepository {
+    // Abstract method - must be implemented
     User findById(Long id);
 
-    // Default method in Java
+    // Default method provides implementation
     default User findByIdOrThrow(Long id) {
         return Optional.ofNullable(findById(id))
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    // Static method in interface (Java 8+)
+    // Factory method in interface
     static UserRepository inMemory() {
         return new InMemoryUserRepository();
     }
@@ -26,19 +28,30 @@ public interface UserRepository {
 **Kotlin:**
 
 ```kotlin
+// Kotlin interface with default implementations
 interface UserRepository {
+    // Abstract function returns nullable User
     fun findById(id: Long): User?
 
-    // Default implementation in Kotlin
+    // Default implementation using Elvis operator
     fun findByIdOrThrow(id: Long): User =
         findById(id) ?: throw RuntimeException("User not found")
 
+    // Companion object for static-like members
     companion object {
-        // Similar to static methods in Java
+        // Factory function
         fun inMemory(): UserRepository = InMemoryUserRepository()
     }
 }
 ```
+
+**Key Differences:**
+
+- Kotlin uses nullable types instead of Optional
+- More concise default implementations
+- Companion object replaces static methods
+- Elvis operator for null checking
+- Function return types are after the name
 
 ### Functional Interfaces
 

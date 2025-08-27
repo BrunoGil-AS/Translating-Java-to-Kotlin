@@ -93,32 +93,57 @@ public class Money {
 **Kotlin:**
 
 ```kotlin
-// Zero-overhead wrapper
+// Kotlin inline value class - compiles to primitive type
 @JvmInline
 value class EmailAddress(val value: String) {
+    // Validation in initializer block
     init {
         require(value.contains("@")) { "Invalid email" }
     }
 
-    // Extension properties and functions
+    // Computed property with no backing field
     val domain get() = value.substringAfter("@")
+
+    // Additional validation method
     fun isValid() = value.count { it == '@' } == 1
 }
 
-// Value class with multiple properties
+// Value class with arithmetic operations
 @JvmInline
 value class Money(private val valueInCents: Long) {
+    // Computed property converts to dollars
     val dollars: Double get() = valueInCents / 100.0
 
+    // Operator overloading for arithmetic
     operator fun plus(other: Money) = Money(valueInCents + other.valueInCents)
     operator fun minus(other: Money) = Money(valueInCents - other.valueInCents)
 
     companion object {
+        // Factory method for dollar amounts
         fun fromDollars(amount: Double): Money =
             Money((amount * 100).roundToLong())
     }
 }
+
+// Usage example
+fun demonstrateValueClasses() {
+    val email = EmailAddress("test@example.com")
+    println(email.domain)  // prints: example.com
+
+    val price1 = Money.fromDollars(10.50)
+    val price2 = Money.fromDollars(5.75)
+    val total = price1 + price2  // Uses operator overloading
+    println(total.dollars)  // prints: 16.25
+}
 ```
+
+**Key Differences:**
+
+- Kotlin value classes have no runtime overhead
+- Can include properties and methods
+- Support operator overloading
+- Provide type safety without boxing
+- Compile to primitive types when possible
 
 ### Type-Safe Wrappers
 

@@ -7,22 +7,34 @@
 **Java:**
 
 ```java
+// Java's approach to null safety using Optional
 public class UserService {
+    // Wrapping nullable result in Optional
     public Optional<User> findById(Long id) {
         User user = repository.findById(id);
         return Optional.ofNullable(user);
     }
 
+    // Chaining Optional operations
     public String getUppercaseUsername(Long id) {
         return findById(id)
-                .map(User::getUsername)
-                .map(String::toUpperCase)
-                .orElse("UNKNOWN");
+                .map(User::getUsername)     // Transform if present
+                .map(String::toUpperCase)   // Chain transformations
+                .orElse("UNKNOWN");         // Provide default value
     }
 
+    // Conditional execution with Optional
     public void processUser(User user) {
-        Optional.ofNullable(user)
-                .ifPresent(this::sendWelcomeEmail);
+        Optional.ofNullable(user)          // Wrap nullable value
+                .ifPresent(this::sendWelcomeEmail); // Execute if present
+    }
+
+    // Multiple fallback example
+    public String getUserDisplayName(Long id) {
+        return findById(id)
+                .map(User::getDisplayName)
+                .or(() -> findById(id).map(User::getEmail))
+                .orElse("Anonymous");
     }
 }
 ```
@@ -30,17 +42,41 @@ public class UserService {
 **Kotlin:**
 
 ```kotlin
+// Kotlin's native null safety features
 class UserService {
+    // Return type explicitly marks nullability
     fun findById(id: Long): User? = repository.findById(id)
 
+    // Safe call operator with Elvis operator
     fun getUppercaseUsername(id: Long): String =
         findById(id)?.username?.uppercase() ?: "UNKNOWN"
 
+    // Safe execution with let
     fun processUser(user: User?) {
         user?.let { sendWelcomeEmail(it) }
     }
+
+    // Multiple fallback with Elvis operator chain
+    fun getUserDisplayName(id: Long): String =
+        findById(id)?.displayName
+            ?: findById(id)?.email
+            ?: "Anonymous"
+
+    // Combining null checks with conditions
+    fun processVerifiedUser(user: User?) {
+        user?.takeIf { it.isVerified }
+            ?.let { sendWelcomeEmail(it) }
+    }
 }
 ```
+
+**Key Differences:**
+
+- Kotlin uses type system for null safety
+- Safe call operator (?.) for chaining
+- Elvis operator (?:) for defaults
+- No wrapper object overhead
+- Smart casts after null checks
 
 ### Safe Property Access
 

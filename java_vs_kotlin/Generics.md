@@ -23,6 +23,7 @@ val userMap: Map<Int, String> = mapOf(1 to "Alice")   // Factory functions
 ```
 
 **Key Differences:**
+
 - Kotlin provides concise factory functions
 - Type inference reduces verbosity
 - Immutable collections by default
@@ -40,12 +41,12 @@ val userMap: Map<Int, String> = mapOf(1 to "Alice")   // Factory functions
 public class NumberProcessor {
     // This list can hold Number or any subtype of Number
     List<? extends Number> numbers = new ArrayList<Integer>();
-    
+
     // Producer - can only read from numbers
     public Number getFirst(List<? extends Number> nums) {
         return nums.get(0);
     }
-    
+
     // Consumer - can only add to numbers
     public void addNumber(List<? super Integer> nums) {
         nums.add(42);
@@ -62,17 +63,17 @@ class NumberProcessor {
     interface NumberSource<out T : Number> {
         fun getNext(): T    // Can only produce T
     }
-    
+
     // Consumer interface with in modifier
     interface NumberSink<in T : Number> {
         fun process(item: T)  // Can only consume T
     }
-    
+
     // Usage example
     fun demo() {
         val ints: NumberSource<Int> = IntSource()
         val nums: NumberSource<Number> = ints  // OK because of 'out'
-        
+
         val numSink: NumberSink<Number> = NumberProcessor()
         val intSink: NumberSink<Int> = numSink // OK because of 'in'
     }
@@ -80,6 +81,7 @@ class NumberProcessor {
 ```
 
 **Key Differences:**
+
 - Java uses wildcard types (`? extends`, `? super`)
 - Kotlin uses declaration-site variance (`out`, `in`)
 - Kotlin's approach is more intuitive and safer

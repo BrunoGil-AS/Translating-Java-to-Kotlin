@@ -51,6 +51,7 @@ fun readFile() {
 ```
 
 **Key Differences:**
+
 - Kotlin's try blocks can be expressions that return values
 - No need for explicit resource management (use-statement available)
 - More concise error handling with string templates
@@ -82,6 +83,7 @@ fun processFile() {
 ```
 
 **Key Differences:**
+
 - Java requires checked exceptions to be declared or caught
 - Kotlin treats all exceptions as unchecked
 - No need for throws clause in Kotlin

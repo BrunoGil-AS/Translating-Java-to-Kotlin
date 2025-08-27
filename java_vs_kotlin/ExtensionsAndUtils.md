@@ -7,9 +7,12 @@
 **Java:**
 
 ```java
+// Traditional Java utility class pattern
 public final class StringUtils {
-    private StringUtils() {} // Prevent instantiation
+    // Private constructor prevents instantiation
+    private StringUtils() {}
 
+    // Static utility method for string truncation
     public static String truncate(String text, int maxLength) {
         if (text == null || text.length() <= maxLength) {
             return text;
@@ -17,30 +20,39 @@ public final class StringUtils {
         return text.substring(0, maxLength) + "...";
     }
 
+    // Static validation utility
     public static boolean isValidEmail(String email) {
         return email != null &&
                email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
     }
 }
 
-// Usage in Java
+// Usage requires static import or class reference
 String result = StringUtils.truncate("Hello World", 5);
 ```
 
 ### Kotlin Extension Functions
 
-```kotlin
-// File: StringExtensions.kt
+````kotlin
+// Extension functions extend String class functionality
 fun String.truncate(maxLength: Int): String =
-    if (length <= maxLength) this
-    else take(maxLength) + "..."
+    if (length <= maxLength) this        // Use receiver object with 'this'
+    else take(maxLength) + "..."         // Built-in take function
 
+// Extension function for email validation
 fun String.isValidEmail(): Boolean =
     matches(Regex("^[A-Za-z0-9+_.-]+@(.+)$"))
 
-// Usage in Kotlin
-val result = "Hello World".truncate(5)
-```
+// Usage shows natural method call syntax
+val result = "Hello World".truncate(5)   // Called like instance method
+val valid = "test@email.com".isValidEmail() // Fluent API style
+
+**Key Differences:**
+- Extensions appear as regular methods
+- No utility class needed
+- Natural method call syntax
+- Better discoverability
+- Can be called on nullable types
 
 ### Using Kotlin Extensions from Java
 
@@ -57,7 +69,7 @@ public class JavaConsumer {
             str -> Integer.parseInt(str));
     }
 }
-```
+````
 
 ### Extension Properties
 

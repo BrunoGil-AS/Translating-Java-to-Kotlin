@@ -217,6 +217,7 @@ fun processNumbers() {
 ```
 
 **Key Differences:**
+
 - Kotlin Sequences are simpler to create with `asSequence()`
 - More concise syntax with lambda expressions
 - Built-in range support (1..10)
@@ -274,6 +275,7 @@ fun demonstrate() {
 ```
 
 **Key Differences:**
+
 - Kotlin operations work directly on collections
 - No need for stream conversion or collection
 - More concise lambda syntax with 'it'

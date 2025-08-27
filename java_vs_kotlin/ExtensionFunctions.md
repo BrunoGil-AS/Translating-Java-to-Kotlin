@@ -54,12 +54,12 @@ fun String?.isValidEmail(): Boolean {
 
 // Regular string extension
 fun String.truncate(maxLength: Int): String {
-    return if (this.length <= maxLength) this 
+    return if (this.length <= maxLength) this
            else this.take(maxLength) + "..."
 }
 
 // Single-expression function extension
-fun String.removeWhitespace(): String = 
+fun String.removeWhitespace(): String =
     this.replace(Regex("\s+"), "")
 
 // Usage demonstrates natural method chaining
@@ -76,6 +76,7 @@ class EmailService {
 ```
 
 **Key Differences:**
+
 - Kotlin extensions appear as regular methods
 - Support for nullable type extensions
 - Natural method chaining capability
@@ -117,7 +118,7 @@ public class OrderService {
     public List<String> getValidOrderNumbers(List<Order> orders) {
         return CollectionUtils.mapNotNull(
             CollectionUtils.filterNotNull(orders),
-            order -> order.getOrderNumber().length() > 5 ? 
+            order -> order.getOrderNumber().length() > 5 ?
                      order.getOrderNumber() : null
         );
     }
@@ -129,17 +130,17 @@ public class OrderService {
 ```kotlin
 // Custom extension functions enhance existing types
 // Extension for lists of nullable CharSequences
-fun <T> List<T?>.filterNotNullAndNotEmpty(): List<T> 
+fun <T> List<T?>.filterNotNullAndNotEmpty(): List<T>
         where T : CharSequence {
     return this.filterNotNull().filter { it.isNotEmpty() }
 }
 
 // Extension with custom error handling
 fun <T> List<T>.findFirstOrThrow(
-    predicate: (T) -> Boolean, 
+    predicate: (T) -> Boolean,
     errorMessage: String
 ): T {
-    return this.firstOrNull(predicate) 
+    return this.firstOrNull(predicate)
            ?: throw NoSuchElementException(errorMessage)
 }
 
@@ -163,6 +164,7 @@ class OrderService {
 ```
 
 **Key Differences:**
+
 - Kotlin enables custom extension functions
 - Built-in support for method chaining
 - More natural null handling

@@ -2,6 +2,67 @@
 
 ## 🧵 Threads and Concurrency
 
+### Thread States and Lifecycle
+
+**Java:**
+
+A thread in Java can be in one of six states during its lifecycle:
+
+1. **NEW**: Thread is created but not yet started
+2. **RUNNABLE**: Thread is executing or ready to execute
+3. **BLOCKED**: Thread is waiting for a monitor lock
+4. **WAITING**: Thread is waiting indefinitely for another thread
+5. **TIMED_WAITING**: Thread is waiting for a specified time
+6. **TERMINATED**: Thread has completed its execution
+
+```java
+public class ThreadStatesDemo {
+    public void demonstrateStates() {
+        Thread thread = new Thread(() -> {
+            try {
+                Thread.sleep(1000); // TIMED_WAITING state
+                synchronized(this) {
+                    wait(); // WAITING state
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        System.out.println(thread.getState()); // NEW
+        thread.start(); // RUNNABLE
+    }
+}
+```
+
+**Kotlin:**
+
+Kotlin coroutines have similar states but are managed differently:
+
+1. **Created**: Coroutine is created but not started
+2. **Active**: Coroutine is running
+3. **Suspended**: Coroutine is temporarily paused
+4. **Completed**: Coroutine has finished execution
+5. **Cancelled**: Coroutine was cancelled before completion
+
+```kotlin
+fun demonstrateCoroutineStates() = runBlocking {
+    val job = launch {
+        try {
+            delay(1000) // Suspended state
+            yield() // Cooperative cancellation check
+        } catch (e: CancellationException) {
+            println("Coroutine was cancelled!")
+        }
+    }
+
+    println(job.isActive) // true - Active state
+    delay(500)
+    job.cancel() // Cancelled state
+    job.join() // Wait for completion
+}
+```
+
 ### Thread, Runnable, ExecutorService
 
 **Java:**

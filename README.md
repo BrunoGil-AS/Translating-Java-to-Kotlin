@@ -4,6 +4,14 @@
 
 ### Class Declaration
 
+| Aspect             | Java                           | Kotlin                                           |
+| ------------------ | ------------------------------ | ------------------------------------------------ |
+| Constructor        | Explicit, separate from fields | Primary constructor combines fields + parameters |
+| String handling    | Concatenation with `+`         | String interpolation `$var`                      |
+| Boilerplate        | More verbose                   | Much reduced                                     |
+| Exception handling | Lambda not supported           | Lambda in `orElseThrow`                          |
+| Access modifier    | Explicit `public`              | Implicit `public`                                |
+
 **Java:**
 
 ```java
@@ -64,6 +72,13 @@ class UserService(
 - Traditional OOP patterns are more visible
 
 ### Methods and Functions
+
+| Aspect              | Java                | Kotlin                         |
+| ------------------- | ------------------- | ------------------------------ |
+| Method overloading  | Common for defaults | Replaced by default parameters |
+| Function syntax     | Full body required  | Single-expression `= expr`     |
+| Static methods      | `static` keyword    | `companion object`             |
+| Top-level functions | Not supported       | Supported                      |
 
 **Java:**
 
@@ -128,6 +143,19 @@ fun add(a: Int, b: Int): Int = a + b
 - Class organization is more straightforward and conventional
 
 ### Variables
+
+| Aspect             | Java        | Kotlin |
+| ------------------ | ----------- | ------ |
+| Immutable variable | `final`     | `val`  |
+| Mutable variable   | No modifier | `var`  |
+
+| Access Modifier                           | Java (Fields & Methods)                                                             | Kotlin (Fields & Methods)                                                  | Java (Classes)                                   | Kotlin (Classes)                                 |
+| ----------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------ |
+| **public**                                | Default for classes and members if no modifier is specified. Accessible everywhere. | Default for members. Explicitly `public` if needed. Accessible everywhere. | Classes are `public` by default.                 | Classes are `public` by default.                 |
+| **private**                               | Accessible only within the same class.                                              | Same: accessible only within the same class.                               | Top-level classes cannot be `private`.           | Top-level classes cannot be `private`.           |
+| **protected**                             | Accessible within the same package and subclasses.                                  | Accessible only in subclasses (⚠️ not package-wide like Java).             | Not allowed for top-level classes.               | Not allowed for top-level classes.               |
+| **package-private** (default, no keyword) | Accessible only within the same package.                                            | **Not supported**. Closest equivalent is `internal`.                       | Supported by default (when no modifier is used). | **Not supported**.                               |
+| **internal**                              | Not available.                                                                      | Accessible within the same module (a unique Kotlin feature).               | Not available.                                   | Available: class visible inside the same module. |
 
 **Java:**
 
@@ -342,6 +370,12 @@ class ConfigService {
 - Kotlin's Elvis operator (`?:`) is more concise than `Optional.orElse()`
 - Safe call chains (`?.`) are more natural than `Optional.map()`
 - Kotlin allows multiple fallbacks more readably
+
+| Aspect             | Java              | Kotlin                     |
+| ------------------ | ----------------- | -------------------------- |
+| Default values     | `Optional.orElse` | Elvis operator `?:`        |
+| Safe chaining      | `Optional.map()`  | Safe call `?.`             |
+| Multiple fallbacks | Verbose           | Concise chaining with `?:` |
 
 ## 🏎️ Advanced Concepts
 

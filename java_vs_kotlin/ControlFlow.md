@@ -2,6 +2,17 @@
 
 ## 🧵 Control Flow
 
+**_Comparison table of control flow structures in Java and Kotlin_**
+
+| Feature           | Java                   | Kotlin                 |
+| ----------------- | ---------------------- | ---------------------- |
+| Conditionals      | if-else, switch        | if-else, when          |
+| Loops             | for, while, do-while   | for, while, do-while   |
+| Enhanced for      | for-each loop          | for-each loop          |
+| Break/Continue    | break, continue        | break, continue        |
+| Labels            | Labeled break/continue | Labeled break/continue |
+| Return from loops | return statement       | return statement       |
+
 ### Conditionals
 
 **Java:**

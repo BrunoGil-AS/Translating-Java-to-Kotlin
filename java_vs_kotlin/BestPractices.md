@@ -30,12 +30,16 @@ class UserService(
 }
 ```
 
-**Key Differences:**
+**Comparison Table:**
 
-- Kotlin discourages the `Impl` suffix for implementations
-- Use `companion object` instead of `static final` fields
-- Properties are preferred over fields
-- Constructor injection is more concise
+| Aspect                | Java                          | Kotlin                       |
+| --------------------- | ----------------------------- | ---------------------------- |
+| Implementation naming | Often uses `Impl` suffix      | Discourages `Impl` suffix    |
+| Constants             | `static final` fields         | `companion object` constants |
+| State                 | Fields                        | Properties                   |
+| Dependency injection  | Constructor with `@Autowired` | Primary constructor          |
+
+---
 
 ### Code Organization
 
@@ -69,12 +73,16 @@ private fun Order.validate() { /*...*/ }
 private fun Order.calculateTotal(): BigDecimal { /*...*/ }
 ```
 
-**Key Differences:**
+**Comparison Table:**
 
-- Kotlin encourages extension functions for better organization
-- Properties and functions are public by default
-- Use extension functions instead of utility classes
-- Prefer expression bodies for simple functions
+| Aspect         | Java                            | Kotlin                        |
+| -------------- | ------------------------------- | ----------------------------- |
+| Helpers        | Private methods inside class    | Extension functions           |
+| Utilities      | Utility classes common          | Extension functions preferred |
+| Defaults       | Members explicit public/private | Public by default             |
+| Function style | Block bodies                    | Expression bodies possible    |
+
+---
 
 ### Null Safety Best Practices
 
@@ -107,12 +115,16 @@ class NullHandling {
 }
 ```
 
-**Key Differences:**
+**Comparison Table:**
 
-- Use non-nullable types by default
-- Leverage the type system instead of runtime checks
-- Prefer `?` over `Optional`
-- Use `requireNotNull()` or `checkNotNull()` for explicit validation
+| Aspect          | Java                       | Kotlin                           |
+| --------------- | -------------------------- | -------------------------------- |
+| Null checks     | `Objects.requireNonNull()` | Type system + `requireNotNull()` |
+| Optionality     | `Optional<T>`              | Nullable types (`T?`)            |
+| Enforcement     | Runtime checks common      | Compiler enforced                |
+| Safety defaults | Everything nullable        | Non-nullable by default          |
+
+---
 
 ### Performance Considerations
 
@@ -142,12 +154,16 @@ class CollectionProcessing {
 }
 ```
 
-**Key Differences:**
+**Comparison Table:**
 
-- Use `Sequence` for large collection processing
-- Leverage built-in functions like `filterNotNull()`
-- Take advantage of inline functions for better performance
-- Use `Array<T>` for primitive arrays to avoid boxing
+| Aspect             | Java                            | Kotlin                          |
+| ------------------ | ------------------------------- | ------------------------------- |
+| Collections        | Streams API                     | `Sequence`                      |
+| Null filtering     | Explicit `filter(item != null)` | `filterNotNull()`               |
+| Performance tuning | Streams parallelization         | Inline + sequences              |
+| Primitive arrays   | `int[]` vs boxing with generics | `Array<T>` and primitive arrays |
+
+---
 
 ### Testing Best Practices
 
@@ -186,9 +202,13 @@ fun `should process order`() {
 }
 ```
 
-**Key Differences:**
+**Comparison Table:**
 
-- Use backticks for readable test names
-- Leverage data classes for test data
-- Take advantage of named parameters
-- Use property access syntax
+| Aspect      | Java                   | Kotlin                       |
+| ----------- | ---------------------- | ---------------------------- |
+| Test names  | Method names           | Backtick strings             |
+| Test data   | Manual object creation | Data classes with named args |
+| Assertions  | Getter-based           | Property access syntax       |
+| Readability | More boilerplate       | Concise                      |
+
+---

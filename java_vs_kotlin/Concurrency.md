@@ -63,45 +63,202 @@ fun demonstrateCoroutineStates() = runBlocking {
 }
 ```
 
-### Thread, Runnable, ExecutorService
+---
+
+### Creating Threads
+
+#### 1. Extending the **Thread** Class
 
 **Java:**
 
-- The traditional way of handling concurrency in Java using raw threads or executor services for better management.
-
 ```java
-public class ConcurrencyJava {
-    public void executeTasks() {
-        ExecutorService executor = Executors.newFixedThreadPool(5);
+class MyThread extends Thread {
+    @Override
+    public void run() {
+        System.out.println("Thread running in Java");
+    }
+}
 
-        Runnable task = () -> {
-            System.out.println("Executing task in thread: " + Thread.currentThread().getName());
-        };
-
-        Future<Integer> result = executor.submit(() -> {
-            System.out.println("Executing callable task...");
-            Thread.sleep(1000);
-            return 42;
-        });
-
-        executor.submit(task);
-
-        try {
-            System.out.println("Callable result: " + result.get());
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        executor.shutdown();
+public class Main {
+    public static void main(String[] args) {
+        MyThread t = new MyThread();
+        t.start();
     }
 }
 ```
+
+**Kotlin:**
+
+```kotlin
+class MyThread : Thread() {
+    override fun run() {
+        println("Thread running in Kotlin")
+    }
+}
+
+fun main() {
+    val t = MyThread()
+    t.start()
+}
+```
+
+---
+
+#### 2. Implementing the **Runnable** Interface
+
+**Java:**
+
+```java
+class MyRunnable implements Runnable {
+    @Override
+    public void run() {
+        System.out.println("Runnable task running in Java");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Thread t = new Thread(new MyRunnable());
+        t.start();
+    }
+}
+```
+
+**Kotlin:**
+
+```kotlin
+class MyRunnable : Runnable {
+    override fun run() {
+        println("Runnable task running in Kotlin")
+    }
+}
+
+fun main() {
+    val t = Thread(MyRunnable())
+    t.start()
+}
+```
+
+---
+
+#### 3. Using Lambdas (Runnable Simplified)
+
+**Java:**
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Thread t = new Thread(() -> {
+            System.out.println("Lambda Runnable in Java");
+        });
+        t.start();
+    }
+}
+```
+
+**Kotlin:**
+
+```kotlin
+fun main() {
+    val t = Thread {
+        println("Lambda Runnable in Kotlin")
+    }
+    t.start()
+}
+```
+
+👉 Kotlin uses **SAM (Single Abstract Method) conversions**, making thread creation shorter and cleaner.
+
+---
+
+### Synchronization: **wait & notify**
+
+If multiple threads share an object, one can `wait()` while another `notify()` it.
+
+**Java:**
+
+```java
+class Shared {
+    synchronized void waitForSignal() throws InterruptedException {
+        wait(); // current thread waits
+    }
+
+    synchronized void sendSignal() {
+        notify(); // wakes one waiting thread
+    }
+}
+```
+
+**Kotlin:**
+
+```kotlin
+class Shared {
+    @Synchronized fun waitForSignal() {
+        try {
+            (this as java.lang.Object).wait()
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+    }
+
+    @Synchronized fun sendSignal() {
+        (this as java.lang.Object).notify()
+    }
+}
+```
+
+👉 Notes:
+
+- Kotlin compiles to JVM bytecode, so `wait()` / `notify()` still work (they belong to `java.lang.Object`).
+- Use `@Synchronized` to make functions thread-safe.
+
+---
+
+### Example: Two Threads Communicating
+
+```kotlin
+class Shared {
+    @Synchronized fun waitForSignal() {
+        println("Waiting...")
+        (this as java.lang.Object).wait()
+        println("Resumed!")
+    }
+
+    @Synchronized fun sendSignal() {
+        println("Sending signal...")
+        (this as java.lang.Object).notify()
+    }
+}
+
+fun main() {
+    val shared = Shared()
+
+    val t1 = Thread { shared.waitForSignal() }
+    val t2 = Thread {
+        Thread.sleep(1000) // simulate work
+        shared.sendSignal()
+    }
+
+    t1.start()
+    t2.start()
+}
+```
+
+**Output:**
+
+```shell
+Waiting...
+Sending signal...
+Resumed!
+```
+
+---
 
 ### Coroutines (launch, async, runBlocking)
 
 **Kotlin:**
 
-- Coroutines are lightweight threads that simplify asynchronous programming. They avoid blocking threads and use suspension to allow other tasks to run.
+Coroutines are lightweight threads that simplify asynchronous programming. They avoid blocking threads and use suspension to allow other tasks to run.
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -127,7 +284,37 @@ fun executeTasks() {
 }
 ```
 
+**Another Example with Structured Concurrency:**
+
+```kotlin
+import kotlinx.coroutines.*
+
+fun main() = runBlocking {
+    launch {
+        delay(1000)
+        println("Coroutine 1 finished")
+    }
+    launch {
+        println("Coroutine 2 finished immediately")
+    }
+}
+```
+
+---
+
 ### Performance and Readability Comparison
 
-- **Readability**: Coroutines often lead to more readable and sequential-looking code compared to Java's callback-based or `Future`-based asynchronous code.
-- **Performance**: Coroutines are more lightweight than threads. Thousands of coroutines can run on a single thread, making them highly efficient for I/O-bound operations where threads would be sitting idle. For CPU-bound tasks, traditional threads might still be necessary to leverage multiple cores fully.
+- **Readability**: Coroutines lead to more sequential-looking and cleaner code compared to Java's callback-based or `Future`-based async code.
+- **Performance**: Coroutines are more lightweight than threads. Thousands of coroutines can run on a few threads, making them highly efficient for I/O-bound operations.
+
+---
+
+### 📊 Summary
+
+| **Approach**         | **Java**                               | **Kotlin**                                     |
+| -------------------- | -------------------------------------- | ---------------------------------------------- |
+| Extend `Thread`      | `class MyThread extends Thread {}`     | `class MyThread : Thread() {}`                 |
+| Implement `Runnable` | `class MyRunnable implements Runnable` | `class MyRunnable : Runnable`                  |
+| Lambda Runnable      | `Thread(() -> { ... })`                | `Thread { ... }`                               |
+| Classic Sync         | `wait()` / `notify()`                  | `wait()` / `notify()` inside `@Synchronized`   |
+| Modern Concurrency   | Executors, Futures, Streams            | ✅ **Coroutines** (`launch`, `async`, `delay`) |

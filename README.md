@@ -385,7 +385,7 @@ class ConfigService {
 - [`🧵 Control Flow`](java_vs_kotlin/ControlFlow.md)
 - [`🧱 POJOs vs Data Classes`](java_vs_kotlin/POJO.md)
 - [`🧪 Extension Functions`](java_vs_kotlin/ExtensionFunctions.md)
-- [`🧰 Collections and Streams`](java_vs_kotlin/Collections.md)
+- [`📚 Collections and Streams`](java_vs_kotlin/Collections.md)
 - [`🧵 Threads and Concurrency`](java_vs_kotlin/Concurrency.md)
 - [`🧩 Annotations and Frameworks`](java_vs_kotlin/Annotations.md)
 - [`🧾 Exception Handling`](java_vs_kotlin/Exceptions.md)
@@ -397,8 +397,8 @@ class ConfigService {
 
 ### Language Integration
 
-- [`� Interfaces and Default Methods`](java_vs_kotlin/Interfaces.md)
-- [`�️ Utility Classes vs Extensions`](java_vs_kotlin/ExtensionsAndUtils.md)
+- [`⌨️ Interfaces and Default Methods`](java_vs_kotlin/Interfaces.md)
+- [`🧰 Utility Classes vs Extensions`](java_vs_kotlin/ExtensionsAndUtils.md)
 - [`🎁 Wrappers and Value Classes`](java_vs_kotlin/Wrappers.md)
 - [`🛡️ Optional vs Null Safety`](java_vs_kotlin/OptionalVsNullSafety.md)
 

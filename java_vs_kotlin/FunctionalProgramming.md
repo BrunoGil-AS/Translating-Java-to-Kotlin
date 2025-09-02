@@ -2,14 +2,17 @@
 
 ## 🧠 Functional Programming
 
+Functional programming emphasizes **treating functions as first-class citizens**, allowing them to be passed around, returned, and composed.
+
 ### Lambdas & Higher-Order Functions
 
 **Java:**
 
-- Functions are not first-class citizens but can be represented by functional interfaces (`Function`, `Predicate`, `Consumer`).
+- Java functions are **not first-class citizens**, but you can represent them using **functional interfaces** like `Function`, `Predicate`, or `Consumer`.
+- **Higher-order functions** are simulated by passing functional interface instances as parameters.
 
 ```java
-// Higher-order functions in Java using functional interfaces
+// Higher-order function example in Java using functional interfaces
 public class HigherOrderFunctionExample {
     // Method that takes a function as parameter
     public void process(String value, Function<String, Integer> processor) {
@@ -19,17 +22,18 @@ public class HigherOrderFunctionExample {
 
     public void usage() {
         // Pass lambda as function parameter
-        process("hello", s -> s.length()); // 5
+        process("hello", s -> s.length()); // Outputs: 5
 
-        // Using method reference
-        process("world", String::length); // 5
+        // Using method reference for cleaner syntax
+        process("world", String::length); // Outputs: 5
     }
 }
 ```
 
 **Kotlin:**
 
-- Functions are first-class citizens. They can be stored in variables, passed as arguments, and returned from other functions.
+- Functions are **first-class citizens**: they can be stored in variables, passed as arguments, and returned from other functions.
+- Lambda expressions are concise, and the **`it`** keyword can be used for single-parameter lambdas.
 
 ```kotlin
 // Higher-order functions in Kotlin with function types
@@ -40,33 +44,38 @@ class HigherOrderFunctionExample {
     }
 
     fun usage() {
-        // Using lambda with implicit parameter
-        process("hello") { it.length } // 5
+        // Using lambda with implicit parameter 'it'
+        process("hello") { it.length } // Outputs: 5
 
         // Using function reference
-        process("world", String::length) // 5
+        process("world", String::length) // Outputs: 5
 
-        // Storing function in variable
+        // Storing function in variable for reuse
         val lengthCalculator: (String) -> Int = { it.length }
-        process("kotlin", lengthCalculator)
+        process("kotlin", lengthCalculator) // Outputs: 6
     }
 }
 ```
 
 **Key Differences:**
 
-- Kotlin has native function types
-- Simpler lambda syntax with 'it'
-- Can store functions in variables
-- No need for functional interfaces
-- More natural higher-order function support
+- Kotlin has **native function types**, eliminating the need for functional interfaces.
+- Lambdas are **more concise**, especially with the `it` keyword.
+- Functions can be **stored in variables** and passed freely.
+- Higher-order functions are **naturally supported**, making code more expressive.
+
+---
 
 ### Immutability
 
+Immutability is a core concept in functional programming that helps **avoid side-effects** and makes code easier to reason about.
+
 **Java:**
 
+- Java requires explicit effort to create immutable objects.
+- Use `final` fields and defensive copying for collections.
+
 ```java
-// Immutability in Java
 public final class ImmutablePerson {
     private final String name;
     private final int age;
@@ -75,7 +84,7 @@ public final class ImmutablePerson {
     public ImmutablePerson(String name, int age, List<String> hobbies) {
         this.name = name;
         this.age = age;
-        this.hobbies = List.copyOf(hobbies); // Create immutable copy
+        this.hobbies = List.copyOf(hobbies); // Immutable copy
     }
 
     // Only getters, no setters
@@ -87,12 +96,15 @@ public final class ImmutablePerson {
 
 **Kotlin:**
 
+- Kotlin makes immutability **more natural** with `val` and immutable collections.
+- **Data classes** provide concise syntax with built-in immutability and component functions.
+
 ```kotlin
-// Immutability in Kotlin
+// Immutable data class in Kotlin
 data class Person(
     val name: String,
     val age: Int,
-    val hobbies: List<String>  // List is immutable by default
+    val hobbies: List<String>  // Immutable by default
 )
 
 fun demo() {
@@ -104,8 +116,15 @@ fun demo() {
 
 **Key Differences:**
 
-- Kotlin uses `val` for read-only properties
-- Collections are immutable by default
-- Data classes provide built-in immutability
-- No need for defensive copying
-- More concise syntax overall
+- Kotlin uses **`val`** for read-only properties.
+- Collections are **immutable by default**, reducing the need for defensive copying.
+- **Data classes** make creating immutable objects concise and readable.
+- Kotlin’s syntax is more **declarative and less boilerplate-heavy** than Java.
+
+---
+
+### Summary
+
+- **Functional Programming in Java**: achieved through functional interfaces and lambdas (since Java 8), but less natural.
+- **Functional Programming in Kotlin**: fully supported with first-class functions, concise lambdas, higher-order functions, and immutable data classes.
+- Kotlin’s design encourages **pure functions**, immutability, and functional-style programming, making backend code safer and easier to maintain.

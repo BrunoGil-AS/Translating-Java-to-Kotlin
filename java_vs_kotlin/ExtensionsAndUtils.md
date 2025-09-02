@@ -2,83 +2,86 @@
 
 ## 🛠️ Utility Classes vs Extension Functions
 
+Utility functions in Java are typically grouped in **final classes with static methods**, whereas Kotlin provides **extension functions** that allow adding methods to existing classes without modifying them.
+
 ### Traditional Java Utilities
 
-**Java:**
+- Java uses **static utility classes**.
+- Methods are called via the class name or static import.
 
 ```java
-// Traditional Java utility class pattern
 public final class StringUtils {
-    // Private constructor prevents instantiation
-    private StringUtils() {}
+    private StringUtils() {} // Prevent instantiation
 
-    // Static utility method for string truncation
     public static String truncate(String text, int maxLength) {
-        if (text == null || text.length() <= maxLength) {
-            return text;
-        }
+        if (text == null || text.length() <= maxLength) return text;
         return text.substring(0, maxLength) + "...";
     }
 
-    // Static validation utility
     public static boolean isValidEmail(String email) {
-        return email != null &&
-               email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
+        return email != null && email.matches("^[A-Za-z0-9+_.-]+@(.+)$");
     }
 }
 
-// Usage requires static import or class reference
+// Usage:
 String result = StringUtils.truncate("Hello World", 5);
 ```
 
+**Limitations:**
+
+- Static context only, cannot access instance members.
+- Requires explicit class reference.
+- Less discoverable in IDEs.
+
+---
+
 ### Kotlin Extension Functions
 
-````kotlin
-// Extension functions extend String class functionality
-fun String.truncate(maxLength: Int): String =
-    if (length <= maxLength) this        // Use receiver object with 'this'
-    else take(maxLength) + "..."         // Built-in take function
+- Kotlin allows **extending existing classes with new functions**.
+- Extensions use the **receiver object (`this`)**.
 
-// Extension function for email validation
+```kotlin
+fun String.truncate(maxLength: Int): String =
+    if (length <= maxLength) this else take(maxLength) + "..."
+
 fun String.isValidEmail(): Boolean =
     matches(Regex("^[A-Za-z0-9+_.-]+@(.+)$"))
 
-// Usage shows natural method call syntax
-val result = "Hello World".truncate(5)   // Called like instance method
-val valid = "test@email.com".isValidEmail() // Fluent API style
+// Usage
+val result = "Hello World".truncate(5)
+val valid = "test@email.com".isValidEmail()
+```
 
-**Key Differences:**
-- Extensions appear as regular methods
-- No utility class needed
-- Natural method call syntax
-- Better discoverability
-- Can be called on nullable types
+**Key Advantages:**
+
+- Methods appear as **natural instance methods**.
+- No need for utility classes.
+- Better IDE discoverability.
+- Can extend nullable types.
+
+---
 
 ### Using Kotlin Extensions from Java
 
 ```java
-public class JavaConsumer {
-    public void useKotlinExtensions() {
-        // Static method style invocation
-        String truncated = StringExtensionsKt.truncate("Hello", 3);
-        boolean isValid = StringExtensionsKt.isValidEmail("test@example.com");
+String truncated = StringExtensionsKt.truncate("Hello", 3);
+boolean isValid = StringExtensionsKt.isValidEmail("test@example.com");
 
-        // Calling extensions on collections
-        List<String> list = Arrays.asList("1", "2", "3");
-        List<Integer> numbers = CollectionsKt.map(list,
-            str -> Integer.parseInt(str));
-    }
-}
-````
+List<String> list = Arrays.asList("1", "2", "3");
+List<Integer> numbers = CollectionsKt.map(list, str -> Integer.parseInt(str));
+```
+
+- Kotlin extensions **compile to static methods**.
+- Java can call them using the generated class name (`StringExtensionsKt`).
+
+---
 
 ### Extension Properties
 
 ```kotlin
-// Extension property
 val String.emailDomain: String?
-    get() = this.split("@").getOrNull(1)
+    get() = split("@").getOrNull(1)
 
-// Extension property with backing field in companion object
 class ValidationUtils {
     companion object {
         private val emailRegex = Regex("^[A-Za-z0-9+_.-]+@(.+)$")
@@ -89,126 +92,57 @@ val String.isEmail: Boolean
     get() = matches(ValidationUtils.emailRegex)
 ```
 
+- Provides **computed properties**.
+- Can use companion objects for shared constants.
+
+---
+
 ### Advanced Extension Functions
 
 ```kotlin
-// Extension functions with generics
-fun <T> T.applyIf(condition: Boolean, block: T.() -> T): T =
-    if (condition) block() else this
-
-// Extension function with receiver type
+fun <T> T.applyIf(condition: Boolean, block: T.() -> T): T = if (condition) block() else this
 fun StringBuilder.appendIfNotEmpty(text: String) {
     if (isNotEmpty()) append(", ")
     append(text)
 }
-
-// Infix extension function
-infix fun <T> List<T>.intersectWith(other: List<T>): List<T> =
-    filter { it in other }
-
-// Operator overloading via extension
+infix fun <T> List<T>.intersectWith(other: List<T>): List<T> = filter { it in other }
 operator fun Int.times(str: String): String = str.repeat(this)
 ```
 
-### Extension Function Best Practices
+- Supports **generics, receiver types, infix notation, operator overloading**.
 
-```kotlin
-// Scope control with extensions
-class DatabaseConnection {
-    // Limited visibility extension
-    private fun ResultSet.toUser(): User =
-        User(
-            id = getLong("id"),
-            name = getString("name")
-        )
+---
 
-    fun getUser(id: Long): User = connection
-        .prepareStatement("SELECT * FROM users WHERE id = ?")
-        .use { stmt ->
-            stmt.setLong(1, id)
-            stmt.executeQuery().use { rs ->
-                if (rs.next()) rs.toUser()
-                else throw NoSuchElementException()
-            }
-        }
-}
-
-// Extensions for better DSL
-class HtmlBuilder {
-    fun build(block: StringBuilder.() -> Unit): String =
-        StringBuilder().apply(block).toString()
-}
-
-// Usage
-val html = HtmlBuilder().build {
-    append("<div>")
-    append("Content")
-    append("</div>")
-}
-```
-
-### Java Interoperability Tips
-
-```kotlin
-// @JvmName to customize Java method name
-@get:JvmName("domain")
-val String.emailDomain: String?
-    get() = split("@").getOrNull(1)
-
-// @JvmStatic for companion object methods
-class Utils {
-    companion object {
-        @JvmStatic
-        fun helper(input: String): String = input.uppercase()
-    }
-}
-
-// @JvmOverloads for default parameters
-class Processor {
-    @JvmOverloads
-    fun process(text: String, count: Int = 1) = text.repeat(count)
-}
-```
-
-**Key Differences & Best Practices:**
+### Best Practices & Tips
 
 1. **Design Philosophy:**
 
-   - Java: Static utility methods in final classes
-   - Kotlin: Extension functions on types
-   - Kotlin: More natural method chaining
-   - Kotlin: Better IDE support for discovery
+   - Java: Static utility methods.
+   - Kotlin: Extensions on types, enabling natural method chaining.
 
 2. **Interoperability:**
 
-   - Extensions compile to static methods
-   - Java can call Kotlin extensions
-   - @JvmName controls Java method names
-   - @JvmStatic for companion object access
+   - Extensions compile to static methods.
+   - Use `@JvmName`, `@JvmStatic`, and `@JvmOverloads` for Java interop.
 
 3. **Scoping:**
 
-   - Extensions can be locally scoped
-   - Extensions can be private
-   - Can extend sealed hierarchies
-   - Can be receiver-specific
+   - Extensions can be **local, private, or receiver-specific**.
 
 4. **Performance:**
 
-   - No runtime overhead
-   - Compile-time resolution
-   - Inline function optimization
-   - No object creation needed
+   - No runtime overhead, resolved at compile-time.
+   - Can use `inline` functions for optimization.
 
 5. **Use Cases:**
 
-   - Enhance existing classes
-   - Create DSLs
-   - Add utility methods
-   - Better type safety
+   - Enhance existing classes.
+   - Build DSLs.
+   - Add utility methods with **type safety**.
 
 6. **Limitations:**
-   - Can't override members
-   - No state in extensions
-   - No extension properties with backing fields
-   - Resolution ambiguity possible
+
+   - Cannot override class members.
+   - Cannot store state.
+   - Extension properties cannot have backing fields.
+   - Potential for **resolution ambiguity** if multiple extensions match.

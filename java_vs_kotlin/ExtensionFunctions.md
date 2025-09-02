@@ -2,7 +2,13 @@
 
 ## 🧪 Extension Functions
 
+**_What are the extension functions?_**
+
+Extension functions are a powerful feature in Kotlin that allows you to add new functionality to existing classes without modifying their source code. They are defined outside the class they extend and can be called as if they were member functions of the class.
+
 ### Static Methods vs Extension Functions
+
+Usually, when it comes to add extra functionality to existing classes in Java, developers create static utility classes, adding static methods for the desired functionality.
 
 **Java (Static Utility Methods):**
 
@@ -84,6 +90,8 @@ class EmailService {
 - Extension functions are resolved statically
 
 ### Usage in Collections and Utilities
+
+For common collection operations, extension functions can greatly simplify the code.
 
 **Java:**
 
@@ -183,3 +191,41 @@ class OrderService {
 - More explicit about functionality origin
 - Familiar to Java developers
 - Better control over imports and namespaces
+
+### Limitations
+
+- Extension functions are resolved statically, meaning they do not actually modify the classes they extend.
+- They can be particularly useful for adding utility functions to existing libraries without needing to subclass or modify the original classes.
+- Extension functions can be generic, allowing for flexible and reusable code.
+- Extension functions defined in **Kotlin files** can be imported and used in other files, promoting code reuse.
+  - You usually define them in a `.kt` file (often named something like `StringExtensions.kt` or `Extensions.kt`).
+  - They **belong to the package** where the file is declared.
+  - You can **import them into other files** just like any other function.
+
+### Example
+
+```kotlin
+package com.example.utils
+
+// Extension function on String
+fun String.isEmailValid(): Boolean {
+    return this.contains("@") && this.contains(".")
+}
+```
+
+```kotlin
+package com.example.main
+
+import com.example.utils.isEmailValid  // Import the extension
+
+fun main() {
+    val email = "test@example.com"
+    println(email.isEmailValid()) // ✅ Works
+}
+```
+
+### Key Notes
+
+- If you **import the whole package** (`import com.example.utils.*`), all extension functions in that package are available.
+- They don’t actually modify the class; at compile time, they’re just **static functions** with a receiver as the first argument.
+- If there are **conflicting extension functions** with the same name/signature, the one from the **closest scope (imported last or local)** is used.

@@ -1,19 +1,20 @@
 Future work need to add to JavaVsKotlin.md ([+]:completed, [-]:in progress):
-  + collections - Methods
-  + thread - states.
-  + best practices
-  + default methods in kotlin interfaces
-  - extension fun available in java?
-  - error in kotlin
-  + file handling
-  + Memory management
-  + Regular expression
-  + Optional - null safety
-  - Wrappers
-  + pro and cons for java and kotlin comparison
-  - Buildir
-  - Utility classes
-  - db connection (with and without Spring)
-  - Callback method
-  + Functional and Marker interfaces
-  + String methods
+
+- collections - Methods
+- thread - states.
+- best practices
+- default methods in kotlin interfaces
+- extension fun available in java?
+- error in kotlin
+- file handling
+- Memory management
+- Regular expression
+- Optional - null safety
+- Wrappers
+- pro and cons for java and kotlin comparison
+- Builder
+- Utility classes
+- db connection (with and without Spring)
+- Callback method
+- Functional and Marker interfaces
+- String methods

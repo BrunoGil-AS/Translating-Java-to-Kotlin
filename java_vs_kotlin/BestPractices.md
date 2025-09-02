@@ -4,6 +4,21 @@
 
 ### Naming Conventions
 
+| **Element**                     | **Java Naming Convention**                                                                   | **Kotlin Naming Convention**                                                                       |
+| ------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Classes**                     | PascalCase (e.g., `UserService`, `EmployeeManager`)                                          | PascalCase (e.g., `UserService`, `EmployeeManager`)                                                |
+| **Interfaces**                  | PascalCase, sometimes with an “I” prefix (less common today, e.g., `IShape`, `Runnable`)     | PascalCase, no prefix recommended (e.g., `Shape`, `Runnable`)                                      |
+| **Methods / Functions**         | camelCase (e.g., `getUserName()`, `calculateTotal()`)                                        | camelCase (e.g., `getUserName()`, `calculateTotal()`)                                              |
+| **Variables**                   | camelCase (e.g., `userName`, `totalAmount`)                                                  | camelCase (e.g., `userName`, `totalAmount`)                                                        |
+| **Constants**                   | UPPER_SNAKE_CASE (e.g., `MAX_SIZE`, `DEFAULT_TIMEOUT`)                                       | UPPER_SNAKE_CASE (e.g., `MAX_SIZE`, `DEFAULT_TIMEOUT`)                                             |
+| **Properties**                  | camelCase, usually with getters/setters (`userName → getUserName()`)                         | camelCase, accessed directly as properties (`userName`) without explicit getters/setters           |
+| **Packages**                    | lowercase, dot-separated (e.g., `com.example.service`)                                       | lowercase, dot-separated (e.g., `com.example.service`)                                             |
+| **Enums**                       | PascalCase for type (e.g., `DayOfWeek`), UPPER_SNAKE_CASE for values (`MONDAY`, `TUESDAY`)   | Same: PascalCase for type, UPPER_SNAKE_CASE for values                                             |
+| **Annotations**                 | PascalCase (e.g., `@Override`, `@Entity`)                                                    | PascalCase (e.g., `@JvmStatic`, `@Serializable`)                                                   |
+| **Generics**                    | Single uppercase letter, usually `T`, `E`, `K`, `V` (e.g., `List<T>`)                        | Same convention: single uppercase letter (`List<T>`, `Map<K, V>`)                                  |
+| **Companion Objects / Statics** | `public static final` fields in UPPER_SNAKE_CASE (e.g., `public static final int MAX = 10;`) | `const val` in UPPER_SNAKE_CASE inside `object` or `companion object` (e.g., `const val MAX = 10`) |
+| **Extension Functions**         | Not applicable in Java                                                                       | camelCase, usually with receiver name in function (e.g., `fun String.isEmailValid()`)              |
+
 **Java:**
 
 ```java
@@ -29,15 +44,6 @@ class UserService(
     }
 }
 ```
-
-**Comparison Table:**
-
-| Aspect                | Java                          | Kotlin                       |
-| --------------------- | ----------------------------- | ---------------------------- |
-| Implementation naming | Often uses `Impl` suffix      | Discourages `Impl` suffix    |
-| Constants             | `static final` fields         | `companion object` constants |
-| State                 | Fields                        | Properties                   |
-| Dependency injection  | Constructor with `@Autowired` | Primary constructor          |
 
 ---
 

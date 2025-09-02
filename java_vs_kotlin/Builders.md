@@ -2,9 +2,10 @@
 
 ## 🧱 Builders and DSLs
 
-### Builder pattern in Java
+### Builder Pattern in Java
 
-**Java:**
+- The Builder pattern is a **creational design pattern** that allows constructing complex objects step by step.
+- It helps **avoid constructors with many parameters** and supports **immutable objects**.
 
 ```java
 public class User {
@@ -40,16 +41,39 @@ public class User {
 // User user = new User.Builder().name("John").age(30).build();
 ```
 
+**Key Points:**
+
+- Provides a **fluent interface** for creating objects.
+- Useful for **immutable classes** with multiple optional parameters.
+- Requires additional boilerplate code for the builder class.
+
+---
+
 ### Kotlin DSLs (apply, with, run, also, let)
 
-- Kotlin's scope functions and lambda syntax make it easy to create type-safe, structured builders (DSLs).
+- Kotlin uses **scope functions** and **lambda expressions** to simplify object construction.
+- This approach leads to **type-safe, readable, and concise DSLs (Domain Specific Languages)**.
 
 ```kotlin
 data class User(var name: String = "", var age: Int = 0)
 
-// Usage with 'apply'
+// Usage with 'apply' for builder-style DSL
 val user = User().apply {
     name = "John"
     age = 30
 }
 ```
+
+**Explanation of Scope Functions:**
+
+- **`apply`**: Executes block with `this` as receiver, returns the object (ideal for builders).
+- **`with`**: Calls a block on an object, returns the result of the block.
+- **`run`**: Similar to `with`, but invoked as an extension and returns the block result.
+- **`also`**: Executes block with `it` as parameter, returns the object (for side-effects).
+- **`let`**: Executes block with `it` as parameter, returns the block result (useful for null-safety and transformations).
+
+**Key Differences:**
+
+- Kotlin reduces boilerplate with concise **scope functions** instead of separate builder classes.
+- DSLs in Kotlin are **type-safe and readable**, enabling structured configuration and initialization.
+- Works naturally with **mutable or immutable data classes** without needing explicit setters or builder classes.
